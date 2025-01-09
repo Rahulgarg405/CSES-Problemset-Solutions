@@ -1,24 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
 
-int n,cnt[1000001];
+const int N = 1e6;
+vector<int> occ_num(N+1);
 
 void solve(){
-    cin >> n;
+    ll n;
+    cin>>n;
     for(int i=0;i<n;i++){
-        int x;
+        ll x;
         cin>>x;
-        for(int p=1; p*p<=x ; p++){
-            if(x%p==0){
-                cnt[p]++;
-                if(x/p != p) cnt[x/p]++;
-            }
-        }
+        occ_num[x]++;
     }
-    for(int i=1000000 ; i>=1 ; i--){
-        if(cnt[i]>=2){
-            cout<<i<<"\n";
-            break;    
+    for(ll gcd = N ; gcd > 0 ; gcd--){
+        // see how many elements have this number as a divisor :
+        ll div = 0;
+        for(ll i = gcd ; i<=N ; i += gcd) {
+            div += occ_num[i];
+        }
+        if(div >= 2){
+            cout<<gcd<<"\n";
+            return;
         }
     }
 }
